@@ -25,10 +25,13 @@ class Brand(models.Model):
         return self.name
 
 class Part(models.Model):
+    title = models.CharField(max_length=200)
     category = models.ManyToManyField(Category)
     brand = models.ManyToManyField(Brand)
-    title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='part', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
