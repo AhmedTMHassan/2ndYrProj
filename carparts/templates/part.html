@@ -7,9 +7,16 @@
 </head>
 <body>
     <h1>Parts</h1>
-    {% for part in part_list %}
-        <li>{{ part.title }}</li>
-        <li>{{ part.image }}</li>
-    {% endfor %}
+    <ul>
+        {% for part in part_list %}
+            <li>
+                {{ part.title }}
+                {% if part.image %}
+                    <br>
+                    <img src="{{ part.image.url }}" alt="{{ part.title }}">
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
