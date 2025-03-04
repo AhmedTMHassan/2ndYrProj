@@ -21,8 +21,10 @@ class Brand(models.Model):
     image = models.ImageField(upload_to='brand', blank=True)
     category = models.ManyToManyField(Category)
     
+    
     def __str__(self):
         return self.name
+        
 
 class Part(models.Model):
     title = models.CharField(max_length=200)
