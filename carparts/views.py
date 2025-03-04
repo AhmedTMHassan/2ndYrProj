@@ -1,5 +1,8 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from .models import Part, Brand, Category
+
+class HomePageView(TemplateView):
+    template_name = 'base.html'
 
 class CategoryPageView(ListView):
     model = Category
