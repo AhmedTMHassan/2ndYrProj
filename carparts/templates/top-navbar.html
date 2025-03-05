@@ -9,7 +9,7 @@
         </div>
         <div class="d-flex" style="color: white; margin-right: 2%; margin-top: 0.5%;">
             <li class="nav-item d-flex flex-column" style="margin-right: 1em;">
-                <button class="btn btn-outline-dark" style="border-radius: 2em;"><i class="bi bi-cart"></i><a class="nav-link" href=""></a></button>
+                <button class="btn btn-outline-dark" style="border-radius: 2em; padding: 1em;"><i class="bi bi-cart"></i><a class="nav-link" href=""></a></button>
             </li>
             {% if item_count > 0 %}
             <li class="nav-item d-flex">
@@ -53,8 +53,8 @@
         </div>
         <div class="mr-auto">
             <form class="form d-flex">
-                <a href="{% url 'login' %}" class="btn btn-outline-light" style="width: 5em;">Log in</a>
-                <a href="{% url 'signup' %}" class="btn btn-outline-light" style="width: 5em;">Sign up</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-dark" style="width: 5em; border-radius: 2em;">Log in</a>
+                <a href="{% url 'signup' %}" class="btn btn-outline-dark" style="width: 5em; border-radius: 2em;">Sign up</a>
             </form>
         </div>
         {% endif %}
