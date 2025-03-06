@@ -1,6 +1,8 @@
 <div class="navbar-dark bg-dark" style="text-align: center; padding: 1em; padding-left: 10em;"> 
-    {% for category in category_list %}
-        <li class="text-light" style="display: inline-block; padding-right: 10em;">{{ category.name }}</li>
-    {% endfor %}
+    <ul class="d-flex" style="list-style: none; padding: 0; margin: 0;">
+        {% for category in category_list %}
+            <li class="mr-3"><a class="dropdown-item text-light" href="{% url 'shop:brands_by_category' category.id %}" style="margin-right: 11em;">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
 </div>
 
