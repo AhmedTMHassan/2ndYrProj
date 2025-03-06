@@ -19,12 +19,12 @@ class BrandPageView(ListView):
     model = Brand
     template_name = 'shop/brand.html'
     context_object_name = 'brand_list'
+    
 
 class PartPageView(ListView):
     model = Part
     template_name = 'shop/part.html'
     context_object_name = 'part_list'
-
 
 class BrandsByCategoryView(DetailView):
     model = Category
@@ -56,5 +56,5 @@ class PartDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['make_list'] = Brand.objects.all() 
+        context['brand_list'] = Brand.objects.all() 
         return context

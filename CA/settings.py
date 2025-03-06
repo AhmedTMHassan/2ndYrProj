@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'carparts.context_processors.category_list',
                 'carparts.context_processors.part_list',
+                'carparts.context_processors.brand_list',
             ],
         },
     },
@@ -136,4 +137,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
