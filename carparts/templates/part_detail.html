@@ -29,7 +29,7 @@
                     {% for brand in part.brand.all %}
                     <h2 class="text-light">{{ brand.name }}</h2>
                     {% endfor %}
-                    <p class="text-light">{{part.stock}}</p>
+                    <p class="text-light">Available: {{part.stock}}</p>
 
                     <div class="d-flex align-items-center">
                         <div class="input-group" style="max-width: 150px;">
