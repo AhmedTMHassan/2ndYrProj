@@ -1,7 +1,10 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="d-flex justify-content-between w-100 px-3" style="padding: 2em;">
-        <a href="{% url 'home' %}"><img src="/media/logo.PNG" alt="" style="width: 10em; margin-left: 2em;"></a>
-        <div class="container-fluid" style="width: 100%;">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/image.png' %}" alt="" style="width: 10em; margin-left: 2em;">
+        </a>
+                <div class="container-fluid" style="width: 100%;">
             <form class="d-flex" action="" method="get">
                 <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="border-radius: 2em; padding: 1em;">
                 <button class="btn btn-outline-dark" type="submit" style="border-radius: 2em;">Search</button>
