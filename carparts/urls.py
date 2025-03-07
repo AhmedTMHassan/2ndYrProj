@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import CategoryPageView, BrandPageView, PartPageView, HomePageView, BrandsByCategoryView, PartsByBrandView, PartDetailView
 
-app_name = 'shop'
+app_name = 'carparts'
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='base.html'),
