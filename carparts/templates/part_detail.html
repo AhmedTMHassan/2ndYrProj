@@ -28,20 +28,10 @@
                     {% endfor %}
                     <p class="text-light">Available: {{part.stock}}</p>
 
-                    <div class="d-flex align-items-center">
-                        <div class="input-group" style="max-width: 150px;">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button">-</button>
-                            </div>
-                            <input type="text" class="form-control text-center" value="1">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button">+</button>
-                            </div>
-                        </div>
-                    </div>
+                   
 
 
-                    <button class="btn btn-success ml-3" style="margin-top: 2em;"href="{% url 'cart:add_cart' part.id %}">CHECKOUT - €{{part.price}}</button>
+                    <a href="{% url 'cart:add_cart' part.id %}"><button class="btn btn-success ml-3" style="margin-top: 2em;">Add to Cart - €{{part.price}}</button></a>
 
                     <div class="text-light">
                         Description: <br>

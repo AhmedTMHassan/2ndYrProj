@@ -1,5 +1,6 @@
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Part, Brand, Category
+from cart.models import CartItem
 
 class HomePageView(TemplateView):
     template_name = 'base.html'
@@ -58,3 +59,4 @@ class PartDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['brand_list'] = Brand.objects.all() 
         return context
+    
