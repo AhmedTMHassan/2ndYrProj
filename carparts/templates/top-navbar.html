@@ -5,7 +5,7 @@
             <img src="{% static 'images/image.png' %}" alt="" style="width: 10em; margin-left: 2em;">
         </a>
                 <div class="container-fluid" style="width: 100%;">
-            <form class="d-flex" action="" method="get">
+            <form class="d-flex" action="{% url 'search_app:searchResult' %}" method="get">
                 <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="border-radius: 2em; padding: 1em;">
                 <button class="btn btn-outline-dark" type="submit" style="border-radius: 2em;">Search</button>
             </form>
@@ -13,10 +13,10 @@
         <div class="d-flex" style="color: white; margin-right: 2%; margin-top: 0.5%;">
             <li class="nav-item d-flex flex-column" style="margin-right: 1em;">
                 <button class="btn btn-outline-dark" style="border-radius: 2em; padding: 1em;"><i class="bi bi-cart"></i><a class="nav-link" href=""></a></button>
-            </li>
+                
             {% if item_count > 0 %}
             <li class="nav-item d-flex">
-                <a class="nav-link" href=""><i
+                <a class="nav-link" href="{% url 'cart:cart_detail' %}"><i
                         class="fas fa-shopping-cart">({{item_count}})</i></a>
             </li>
             {% endif %}

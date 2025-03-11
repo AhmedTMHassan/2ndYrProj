@@ -14,13 +14,10 @@
     <article>
         <div class="container" style="margin-top: 1em;">
             <div class="row">
-                <!-- Image Column -->
                 {% if part.image %}
                 <img class="carcover" style="width: 30%; border-radius: 1em; margin-top: 2%; margin-left: 4em;"
                     src="{{ part.image.url }}" alt="">
                 {% endif %}
-
-                <!-- Product Info Column -->
                 <div class="col-md-6">
                     <div class="d-flex justify-content-end">
                         <i class="fa fa-share-alt" aria-hidden="true"></i>
@@ -43,14 +40,8 @@
                         </div>
                     </div>
 
-                    <div class="form-check mt-3 text-light">
-                        <input class="form-check-input" type="checkbox" value="" id="termsCheck">
-                        <label class="form-check-label" for="termsCheck">
-                            I agree with the <a href="#">Terms & conditions</a>
-                        </label>
-                    </div>
 
-                    <button class="btn btn-success ml-3" style="margin-top: 2em;">CHECKOUT - €{{part.price}}</button>
+                    <button class="btn btn-success ml-3" style="margin-top: 2em;"href="{% url 'cart:add_cart' part.id %}">CHECKOUT - €{{part.price}}</button>
 
                     <div class="text-light">
                         Description: <br>

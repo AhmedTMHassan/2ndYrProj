@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'carparts',
     'accounts',
+    'search_app',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.no_cache.NoCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'CA.urls'
@@ -67,6 +70,7 @@ TEMPLATES = [
                 'carparts.context_processors.category_list',
                 'carparts.context_processors.part_list',
                 'carparts.context_processors.brand_list',
+                'cart.context_processors.counter',
             ],
         },
     },
