@@ -169,7 +169,7 @@ def create_order(request):
         for item in cart_items:
             try:
                 oi = OrderItem.objects.create(
-                    product=item.part.name,
+                    product=item.part.title,
                     quantity=item.quantity,
                     price=item.part.price,
                     order=order_details
