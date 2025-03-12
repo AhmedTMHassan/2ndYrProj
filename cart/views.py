@@ -7,7 +7,7 @@ from django.conf import settings
 from django.urls import reverse
 from order.models import Order, OrderItem
 from stripe import StripeError
-
+from django.contrib import messages
 
 def _cart_id(request):
     cart = request.session.session_key
@@ -17,6 +17,10 @@ def _cart_id(request):
 
 def add_cart(request, part_id):
     part = Part.objects.get(id=part_id)
+
+    if part.stock <= 0:
+        messages.error(request, "This product is out of stock.")
+        return redirect('carparts:part_detail', pk=part.id)
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist: 
@@ -30,6 +34,7 @@ def add_cart(request, part_id):
     except CartItem.DoesNotExist:
         cart_item = CartItem.objects.create(part=part, quantity=1,cart=cart)
     return redirect('cart:cart_detail') 
+
 
 
 def cart_detail(request, total=0, counter=0, cart_items = None):

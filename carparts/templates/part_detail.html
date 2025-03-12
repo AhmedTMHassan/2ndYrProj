@@ -27,7 +27,11 @@
                     {% for brand in part.brand.all %}
                     <h2 class="text-light">{{ brand.name }}</h2>
                     {% endfor %}
+                    {% if part.stock > 0 %}
                     <p class="text-light">Available: {{part.stock}}</p>
+                    {% else %}
+                    <p class="text-light">Out Of Stock</p>
+                    {% endif %}
 
                    
 
