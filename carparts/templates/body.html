@@ -1,73 +1,78 @@
-<article class="bg-dark">
-    <h1 class="text-light" style="text-align: center;"> Welcome {{ user.username }}</h1>
-    <h3 class="text-light" style="text-align: center;"> Popular Products</h3>
-    <section class="ftco-section py-5 d-flex">
-        <div class="container">
-            <div class="row">
-                {% for part in part_list|slice:":3" %}
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="card h-100 shadow-sm d-flex flex-column" style="height: 31.5em; width: 50em;">
-                        <div class="card-img-top">
-                            {% if part.image %}
-                            <a href="{% url 'carparts:part_detail' part.pk %}">
-                                <img src="{{ part.image.url }}" alt="" class="img-fluid rounded-top"
-                                    style="height: 400px; width: 800px;">
-                            </a>
-                            {% endif %}
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">
-                                <a href="{% url 'carparts:part_detail' part.pk %}" class="text-dark text-decoration-none">
-                                    {{ part.title }}
+
+<div class="page-content">
+
+    <article class="bg-dark">
+        <h1 class="text-light" style="text-align: center;"> Welcome {{ user.username }}</h1>
+        <h3 class="text-light" style="text-align: center;"> Popular Products</h3>
+        <section class="ftco-section py-5 d-flex">
+            <div class="container">
+                <div class="row">
+                    {% for part in part_list|slice:":3" %}
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="card h-100 shadow-sm d-flex flex-column" style="height: 31.5em; width: 50em;">
+                            <div class="card-img-top">
+                                {% if part.image %}
+                                <a href="{% url 'carparts:part_detail' part.pk %}">
+                                    <img src="{{ part.image.url }}" alt="" class="img-fluid rounded-top"
+                                        style="height: 400px; width: 800px;">
                                 </a>
-                            </h5>
-                            <h4 style="text-align: center;">
-                                €{{part.price}}
-                            </h4>
+                                {% endif %}
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <a href="{% url 'carparts:part_detail' part.pk %}" class="text-dark text-decoration-none">
+                                        {{ part.title }}
+                                    </a>
+                                </h5>
+                                <h4 style="text-align: center;">
+                                    €{{part.price}}
+                                </h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-                <div style="text-align: center;">
-                    <a class="text-light" href="{% url 'carparts:part_list' %}"> <button class="btn btn-outline-light">SHOP ALL PARTS</button></a>
-                </div>
-                <h1 class="text-light">--------------------------------------------------------------------------------</h1>
-                <h3 class="text-light" style="text-align: center; margin-bottom: 1em;">Popular Brands</h3>
-                {% for brand in brand_list|slice:":3" %}
-                <div class="col-md-4 mb-4 d-flex">
-                    <div class="card h-100 shadow-sm d-flex flex-column" style="height: 31.5em; width: 50em;">
-                        <div class="card-img-top">
-                            {% if brand.image %}
-                            <a href="{% url 'carparts:parts_by_brand' brand.id %}">
-                                <img src="{{ brand.image.url }}" alt="" class="img-fluid rounded-top"
-                                    style="height: 400px; width: 800px;">
-                            </a>
-                            {% endif %}
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">
-                                <a href="{% url 'carparts:parts_by_brand' brand.id %}"
-                                    class="text-dark text-decoration-none">
-                                    {{ brand.name }}
+                    {% endfor %}
+                    <div style="text-align: center;">
+                        <a class="text-light" href="{% url 'carparts:part_list' %}"> <button class="btn btn-outline-light">SHOP ALL PARTS</button></a>
+                    </div>
+                    <h1 class="text-light">-------------------------------------------------------------------------------------------------</h1>
+                    <h3 class="text-light" style="text-align: center; margin-bottom: 1em;">Popular Brands</h3>
+                    {% for brand in brand_list|slice:":3" %}
+                    <div class="col-md-4 mb-4 d-flex">
+                        <div class="card h-100 shadow-sm d-flex flex-column" style="height: 31.5em; width: 50em;">
+                            <div class="card-img-top">
+                                {% if brand.image %}
+                                <a href="{% url 'carparts:parts_by_brand' brand.id %}">
+                                    <img src="{{ brand.image.url }}" alt="" class="img-fluid rounded-top"
+                                        style="height: 400px; width: 800px;">
                                 </a>
-                            </h5>
+                                {% endif %}
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <a href="{% url 'carparts:parts_by_brand' brand.id %}"
+                                        class="text-dark text-decoration-none">
+                                        {{ brand.name }}
+                                    </a>
+                                </h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-                <div style="text-align: center;">
-                    <a class="text-light" href="{% url 'carparts:brand_list' %}"><button class="btn btn-outline-light">SHOP ALL BRANDS</button></a>
+                    {% endfor %}
+                    <div style="text-align: center;">
+                        <a class="text-light" href="{% url 'carparts:brand_list' %}"><button class="btn btn-outline-light">SHOP ALL BRANDS</button></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section>
-        <h3 class="text-light" style="text-align: center;">Products in Use</h3>
-        <img src="/static/footerimages/a3 and c220(2).jpg" alt="" style="width: 15.5em; height: 16em;">
-        <img src="/static/footerimages/a3 and c220.jpg" alt="" style="width: 15.5em; height: 16em;">
-        <img src="/static/footerimages/a3(1).jpg" alt="" style="width: 15.5em; height: 16em;">
-        <img src="/static/footerimages/a3.jpg" alt="" style="width: 15.5em; height: 16em;">
-        <img src="/static/footerimages/a5.jpg" alt="" style="width: 15.5em; height: 16em;">
-        <img src="/static/footerimages/c220d.jpg" alt="" style="width: 16.1em; height: 16em;">
-    </section>
-</article>
+        </section>
+        <section>
+            <h3 class="text-light" style="text-align: center;">Products in Use</h3>
+            <img src="/static/footerimages/a3 and c220(2).jpg" alt="" style="width: 15em; height: 16em; margin-left: 0.65%;">
+            <img src="/static/footerimages/a3 and c220.jpg" alt="" style="width: 15em; height: 16em;">
+            <img src="/static/footerimages/a3(1).jpg" alt="" style="width: 15em; height: 16em;">
+            <img src="/static/footerimages/a3.jpg" alt="" style="width: 15em; height: 16em;">
+            <img src="/static/footerimages/a5.jpg" alt="" style="width: 15em; height: 16em;">
+            <img src="/static/footerimages/c220d.jpg" alt="" style="width: 15em; height: 16em;">
+        </section>
+    </article>
+
+</div>

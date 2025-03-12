@@ -1,6 +1,7 @@
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Part, Brand, Category
-from cart.models import CartItem
+from django.core.paginator import Paginator
+from django.shortcuts import render
 
 class HomePageView(TemplateView):
     template_name = 'base.html'
@@ -24,8 +25,14 @@ class BrandPageView(ListView):
 
 class PartPageView(ListView):
     model = Part
-    template_name = 'shop/part.html'
-    context_object_name = 'part_list'
+    template_name = 'shop/part.html'  
+    context_object_name = 'part_list' 
+    paginate_by = 6  # Number of parts per page
+
+    def get_queryset(self):
+        # Get all parts available (with stock > 0) - adjust this as per your requirement
+        queryset = Part.objects.all()  # Filtering based on stock > 0
+        return queryset
 
 class BrandsByCategoryView(DetailView):
     model = Category

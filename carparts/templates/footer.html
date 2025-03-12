@@ -1,24 +1,76 @@
-<article class="bg-dark" style="padding-top: 5em;">
-    <section style="display: flex;">
-        <ul class="text-light" style="margin-right: 49em; margin-left: 10em; list-style: none;">
-            <h5>CONTACT US</h5>
-            <li>
-                (01) 674 3536
-            </li>
-            <li>
-                contactus@amo.ie
-            </li>
-            <li>
-                D24 K5A
-            </li>
-        </ul>
-        <ul class="text-light" style="list-style: none;">
-            <h5>FOLLOW US ON SOCIAL MEDIA</h5>
-            <li>
-                <i class="fab fa-instagram">Instagram</i><br>
-                <i class="fab fa-youtube">Youtube</i><br>
-                <i class="fab fa-twitter">Twitter</i>
-            </li>
-        </ul>
-    </section>
-</article> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Contact Section</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        details {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        summary {
+            background: #333;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            margin-right: 2.2em;
+        }
+
+        .contact-content {
+            background-color: #222;
+            color: white;
+            padding: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        h5 {
+            margin-bottom: 10px;
+        }
+
+        .social-icons i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+    <details>
+        <summary>▲ Contact Us</summary>
+        <div class="contact-content">
+            <section style="display: flex; justify-content: center; gap: 5em;">
+                <ul>
+                    <h5>CONTACT US</h5>
+                    <li>(01) 674 3536</li>
+                    <li>contactus@amo.ie</li>
+                    <li>D24 K5A</li>
+                </ul>
+                <ul>
+                    <h5>FOLLOW US ON SOCIAL MEDIA</h5>
+                    <li>
+                        <i class="fab fa-instagram"></i> Instagram <br>
+                        <i class="fab fa-youtube"></i> YouTube <br>
+                        <i class="fab fa-twitter"></i> Twitter
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </details>
+    </div>
+</body>
+</html>
