@@ -103,10 +103,10 @@
 <!-- Sidebar Menu -->
 <div class="sidebar">
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Shop</a></li>
-        <li><a href="#">Brands</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'carparts:part_list' %}">Shop</a></li>
+        <li><a href="{% url 'carparts:brand_list' %}">Brands</a></li>
+        <li><a href="#">Contact Us</a></li>
     </ul>
 </div>
 
@@ -160,7 +160,7 @@
                             <i class="bi bi-person-circle"></i> {{ user.username }} 
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <form method="post" action="" class="d-inline">
+                            <form method="post" action="" class="d-inline text-align-center">
                                 {% csrf_token %}
                                 {% if user.profile %}
                                 <a class="btn btn-outline-dark" href="{% url 'show_profile' user.profile.pk %}">View Profile</a>

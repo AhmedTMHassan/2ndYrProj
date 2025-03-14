@@ -27,11 +27,10 @@ class PartPageView(ListView):
     model = Part
     template_name = 'shop/part.html'  
     context_object_name = 'part_list' 
-    paginate_by = 6  # Number of parts per page
-
+    paginate_by = 6  
+    
     def get_queryset(self):
-        # Get all parts available (with stock > 0) - adjust this as per your requirement
-        queryset = Part.objects.all()  # Filtering based on stock > 0
+        queryset = Part.objects.all()  
         return queryset
 
 class BrandsByCategoryView(DetailView):
