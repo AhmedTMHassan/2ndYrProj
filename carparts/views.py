@@ -1,7 +1,5 @@
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Part, Brand, Category
-from django.core.paginator import Paginator
-from django.shortcuts import render
 
 class HomePageView(TemplateView):
     template_name = 'base.html'
