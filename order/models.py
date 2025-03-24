@@ -27,6 +27,7 @@ class Order(models.Model):
                                 MaxValueValidator(100)])
 
 
+
     class Meta:
         db_table = 'Order'
         ordering = ['-created']
