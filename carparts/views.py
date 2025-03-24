@@ -26,10 +26,29 @@ class PartPageView(ListView):
     template_name = 'shop/part.html'  
     context_object_name = 'part_list' 
     paginate_by = 6  
-    
+
     def get_queryset(self):
-        queryset = Part.objects.all()  
+        sort = self.request.GET.get('sort', 'title_asc')  # Default sorting: alphabetical (A-Z)
+        queryset = Part.objects.all()
+
+        # Apply sorting
+        if sort == 'price_asc':
+            queryset = queryset.order_by('price')  # Low to high
+        elif sort == 'price_desc':
+            queryset = queryset.order_by('-price')  # High to low
+        elif sort == 'title_desc':
+            queryset = queryset.order_by('-title')  # Z-A
+        else:  # Default: title_asc
+            queryset = queryset.order_by('title')  # A-Z
+
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sort'] = self.request.GET.get('sort', 'title_asc')  # Pass the current sorting option
+        return context
+    
+    
 
 class BrandsByCategoryView(DetailView):
     model = Category

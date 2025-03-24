@@ -2,8 +2,6 @@
 <div class="page-content">
 
     <article class="bg-dark">
-        <!--<h1 class="text-light" style="text-align: center;"> Welcome {{ user.username }}</h1>
-        <h3 class="text-light" style="text-align: center;"> Popular Products</h3>-->
         <section class="ftco-section py-5 d-flex">
             <div class="container">
                 <div class="row">
@@ -35,7 +33,6 @@
                         <a class="text-light" href="{% url 'carparts:part_list' %}"> <button class="btn btn-outline-light">SHOP ALL PARTS</button></a>
                     </div>
                     <h1 class="text-light">-------------------------------------------------------------------------------------------------</h1>
-                    <h3 class="text-light" style="text-align: center; margin-bottom: 1em;">Popular Brands</h3>
                     {% for brand in brand_list|slice:":3" %}
                     <div class="col-md-4 mb-4 d-flex">
                         <div class="card h-100 shadow-sm d-flex flex-column" style="height: 21.5em; width: 40em;">
