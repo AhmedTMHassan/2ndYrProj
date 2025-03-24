@@ -187,7 +187,7 @@ def create_order(request):
                 empty_cart(request)
             except Exception as e:
                 return redirect("carparts:part_list")  
-        return redirect('carparts:part_list')
+        return redirect('order:thanks',order_details.id)
 
     except ValueError as ve:
         print(f"Error: {ve}")

@@ -7,6 +7,7 @@ class SearchResultsListView(ListView):
     model = Part
     context_object_name = 'part_list'
     template_name = 'search.html'
+    paginate_by = 6
 
     def get_queryset(self):
         query = self.request.GET.get('q')
