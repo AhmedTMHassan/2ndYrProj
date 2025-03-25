@@ -13,153 +13,145 @@
 {% endblock %}
 {% block content %}
 {% if not cart_items %}
-<div>
-    <div class="text-center">
-        <br>
-        <h1 class="text-center my_title">
-            Your shopping cart is empty
-        </h1>
-        <br>
-        <p class="text-center">
-            Please click <a href="{% url 'carparts:part_list' %}">here</a> to continue shopping.
-        </p>
-    </div>
+<div class="container text-center mt-5">
+    <h1 class="fw-bold">Your Shopping Cart is Empty</h1>
+    <p class="mt-3">Please click <a href="{% url 'carparts:part_list' %}">here</a> to continue shopping.</p>
 </div>
 {% else %}
-<div>
-    <div class="text-center">
-        <br>
-        <h1 class="text-center my_title">
-            Your shopping cart
-        </h1>
-        <br>
-    </div>
-</div>
-<div class="row mx-auto">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
-        <table class="table my_custom_table">
-            <thead class="my_custom_thead">
-                <tr>
-                    <th colspan="5">
-                        Your items
-                    </th>
-                </tr>
+<div class="container mt-4">
+    <h2 class="fw-bold">MY CART ({{ cart_items|length }})</h2>
 
-            </thead>
-            <tbody>
-                {% for cart_item in cart_items %}
-                <tr>
-                    <td>
-                        <a href="{{cart_item.part.get_absolute_url}}"><img src="{{cart_item.part.image.url}}" alt=""
-                                class="float-left rounded custom_image"></a>
-                    </td>
-                    <td class="text-left">
-                        {{cart_item.part.title}}
-                        <br>
-                        Unit Price: €{{cart_item.part.price}}
-                        <br>
-                        Qty: {{cart_item.quantity}} x €{{cart_item.part.price}}
-                    </td>
-                    <td>
-                        €{{cart_item.sub_total}}
-                    </td>
-                    {% if cart_item.quantity < cart_item.part.stock %} <td>
-                        <a href="{% url 'cart:add_cart' cart_item.part.id %}" class="custom_a"><i class="fas fa-plus-circle  
-                                           custom_icon"></i></a>&nbsp;
-                        <a href="{% url 'cart:cart_remove' cart_item.part.id %}" class="custom_a"><i class="fas fa-minus-circle 
-                                           custom_icon"></i></a>&nbsp;
-                        <a href="{% url 'cart:full_remove' cart_item.part.id %}" class="custom_icon"><i
-                                class="fas fa-trash-alt custom_icon"></i></a>
-                        </td>
-                        {% else %}
-                        <td>
-                            &nbsp;<a href="" class="custom_a"><i class="fas fa-minus-circle 
-                                        custom_icon"></i></a>&nbsp;
-                            <a href="{% url 'cart:full_remove' cart_item.part.id %}" class="custom_icon"><i
-                                    class="fas fa-trash-alt custom_icon"></i></a>
-                        </td>
-                        <td></td>
-                        {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
 
-    </div>
-    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
-        <table class="table my_custom_table">
-            <thead class="my_custom_thead">
-                <tr>
-                    <th>
-                        Checkout
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="row">
+        <!-- Cart Items Section -->
+        <div class="col-lg-8">
+            <table class="table align-middle">
+                <thead>
+                    <tr class="fw-bold">
+                        <th>PRODUCT(S)</th>
+                        <th class="text-center">PRICE</th>
+                        <th class="text-center">QUANTITY</th>
+                        <th class="text-center">TOTAL</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cart_item in cart_items %}
+                    <tr>
+                        <td class="d-flex align-items-center">
+                            <a href="{{ cart_item.part.get_absolute_url }}">
+                                <img src="{{ cart_item.part.image.url }}" class="img-fluid rounded"
+                                    style="max-width: 80px;">
+                            </a>
+                            <span class="ms-3">{{ cart_item.part.title }}</span>
+                        </td>
+                        <td class="text-center fw-bold">€{{ cart_item.part.price }}</td>
+                        <td class="text-center">
+
+                            {% if cart_item.quantity < cart_item.part.stock %} <a
+                                href="{% url 'cart:add_cart' cart_item.part.id %}" class="btn btn-sm btn-success">
+                                <i class="fas fa-plus-circle"></i>
+                                </a>
+                                {{cart_item.quantity}}
+                                <a href="{% url 'cart:cart_remove' cart_item.part.id %}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-minus-circle"></i>
+                                </a>
+
+                                {% endif %}
+
+                        </td>
+                        <td class="text-center fw-bold">€{{ cart_item.sub_total }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'cart:full_remove' cart_item.part.id %}" class="text-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Delivery Instructions -->
+            <div class="mt-4">
+                <h5 class="fw-bold">Delivery Instructions</h5>
+                <textarea class="form-control" rows="3" placeholder="Leave in a safe place..."></textarea>
+            </div>
+
+            <!-- Secure Shopping Guarantee -->
+
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="col-lg-4">
+            <div class="p-4 bg-light rounded" style="margin-bottom: 5em;">
+
+
+                <h5 class="fw-bold">Order Summary</h5>
+                <div class="d-flex justify-content-between">
+                    <span>Sub Total</span>
+                    <span class="fw-bold">€{{ total|floatformat:"2" }}</span>
+                </div>
+
+                <form class="mt-3 d-flex" action="{% url 'vouchers:apply' %}" method="post" novalidate>
+                    <div class="input-group">
+                        {{ voucher_apply_form }}
+                        <small class="text-muted mt-1">Coupon will be applied at checkout</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                    {% csrf_token %}
+                </form>
+                
+
+
+
+                <hr>
+
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>TOTAL</span>
+                    <span>€{{ total|floatformat:"2" }}</span>
+                </div>
+                {% if request.session.voucher_id %}
                 <tr>
                     <td>
-                        Please review your shopping cart items before proceeding with the order payment.
+                        "{{ voucher.code }}" Voucher has given you
+                        ({{ voucher.discount }}% off)
                     </td>
-                </tr>
-                {% if voucher %}
-                <tr class="subtotal">
-                    <td>Total</td>
-                    <td colspan="4"></td>
-                    <td class="num">€{{ total|
-                        floatformat:"2" }}</td>
-                </tr>
-                <tr>({{ voucher.discount }}% off)
-                    </td>
+                    <br>
                     <td colspan="4"></td>
                     <td class="num neg">
-                        - €{{ discount|floatformat:"2" }}
+                        - €{{ discount|floatformat:"2" }} Taken from Total
                     </td>
                 </tr>
-                <tr class="total">
-                    <td>Total</td>
-                    <td colspan="4"></td>
-                    <td class="num">
-                        €{{ new_total|floatformat:"2" }}
+                {% elif request.session.invalid_voucher %}
+                <tr>
+                    <td>
+                        Incorrect voucher code entered
                     </td>
                 </tr>
                 {% else %}
-                <tr class="total">
-                    <td>Total</td>
-                    <td colspan="4"></td>
-                    <td class="num">
-                        €{{ total|floatformat:"2" }}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            No voucher code entered
+                        </td>
+                    </tr>
                 {% endif %}
-            </tbody>
-        </table>
-        <p>Apply a voucher:</p>
-        <form action="{% url 'vouchers:apply' %}" method="post">
-            {{ voucher_apply_form }}
-            <input type="submit" value="Apply">
-            {% csrf_token %}
-        </form>
-        <td>
-            "{{ voucher.code }}" voucher
-            </tbody>
-            </table>
-            <div class="mx-auto">
+                <br>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>NEW TOTAL</span>
+                    <span>€{{ new_total|floatformat:"2" }}</span>
+                </div>
                 <form action="{% url 'cart:cart_detail' %}" method="POST">
                     {% csrf_token %}
-                    <button class="btn btn-secondary btn-block my_custom_button" type="submit">Pay with card</button>
+                    <button class="btn btn-success btn-lg w-100 mt-2" type="submit">Checkout</button>
                 </form>
-                {% if error %}
-                <p style="color: red;">Error: {{ error }}</p>
-                {% endif %}
-
-                <a href="{% url 'carparts:part_list' %}" class="btn btn-secondary btn-block 
-                     my_custom_button">Continue
-                    Shopping</a>
+                <a href="{% url 'carparts:part_list' %}" class="btn btn-outline-dark btn-lg w-100 mt-2">CONTINUE
+                    SHOPPING</a>
             </div>
+        </div>
     </div>
 </div>
-<br>
 {% endif %}
+
 {% include 'footer.html' %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
