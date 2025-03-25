@@ -25,6 +25,7 @@ class Order(models.Model):
     discount = models.IntegerField(default = 0, 
                                 validators=[MinValueValidator(0), 
                                 MaxValueValidator(100)])
+    
 
 
 
