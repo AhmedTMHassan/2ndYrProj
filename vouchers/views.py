@@ -4,19 +4,6 @@ from django.views.decorators.http import require_POST
 from .models import Voucher 
 from .forms import VoucherApplyForm
 
-from django.shortcuts import redirect
-from django.utils import timezone
-from django.views.decorators.http import require_POST
-from .models import Voucher 
-from .forms import VoucherApplyForm
-
-
-from django.shortcuts import redirect
-from django.utils import timezone
-from django.views.decorators.http import require_POST
-from .models import Voucher 
-from .forms import VoucherApplyForm
-
 def voucher_apply(request):
     now = timezone.now()
     form = VoucherApplyForm(request.POST)

@@ -143,18 +143,22 @@ def empty_cart(request):
         pass
     return redirect('cart:cart_detail')
 
+from django.urls import reverse
+from decimal import Decimal
+
 def create_order(request):
     try:
         session_id = request.GET.get('session_id')
         cart_total = request.GET.get('cart_total')
         voucher_id = request.GET.get('voucher_id')
+
         if not session_id:
             raise ValueError("Session ID not found.")
 
         try:
             session = stripe.checkout.Session.retrieve(session_id)
         except StripeError as e:
-            return redirect("carparts:part_list") 
+            return redirect("carparts:part_list")
 
         customer_details = session.customer_details
         if not customer_details or not customer_details.address:
@@ -165,76 +169,81 @@ def create_order(request):
         shipping_address = customer_details.address
         shipping_name = customer_details.name
 
-        try:
-            order_details = Order.objects.create(
-                token=session.id,
-                total=session.amount_total / 100,  # Convert cents to currency units
-                emailAddress=customer_details.email,
-                billingName=billing_name,
-                billingAddress1=billing_address.line1,
-                billingCity=billing_address.city,
-                billingPostcode=billing_address.postal_code,
-                billingCountry=billing_address.country,
-                shippingName=shipping_name,
-                shippingAddress1=shipping_address.line1, 
-                shippingCity=shipping_address.city, 
-                shippingPostcode=shipping_address.postal_code,
-                shippingCountry=shipping_address.country,
-            )
-            order_details.save()
-        except Exception as e: 
-            print(f"Error: {e}")
-            return redirect("carparts:part_list") 
+        order_details = Order.objects.create(
+            token=session.id,
+            total=session.amount_total / 100,  # Convert cents to currency units
+            emailAddress=customer_details.email,
+            billingName=billing_name,
+            billingAddress1=billing_address.line1,
+            billingCity=billing_address.city,
+            billingPostcode=billing_address.postal_code,
+            billingCountry=billing_address.country,
+            shippingName=shipping_name,
+            shippingAddress1=shipping_address.line1,
+            shippingCity=shipping_address.city,
+            shippingPostcode=shipping_address.postal_code,
+            shippingCountry=shipping_address.country,
+        )
+        order_details.save()
 
         try:
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart, active=True)
         except ObjectDoesNotExist:
-            return redirect("carparts:part_list")  
-        except Exception as e:
-            print(f"Error: {e}")
-            return redirect("carparts:part_list")  
+            return redirect("carparts:part_list")
 
-        voucher = get_object_or_404(Voucher, id=voucher_id)
-        if voucher != None:
+        # Fix: Make voucher optional
+        voucher = None
+        if voucher_id:
+            try:
+                voucher = Voucher.objects.get(id=voucher_id)
+            except Voucher.DoesNotExist:
+                voucher = None  # No voucher, but continue processing the order
+
+        if voucher:
             order_details.voucher = voucher
             cart_total = Decimal(cart_total)
-            order_details.discount = cart_total*(voucher.discount/Decimal('100'))
-            order_details.total = (cart_total-order_details.discount)
+            order_details.discount = cart_total * (voucher.discount / Decimal('100'))
+            order_details.total = cart_total - order_details.discount
             order_details.save()
 
         for item in cart_items:
-            try:
-                oi = OrderItem.objects.create(
-                    product=item.part.title,
-                    quantity=item.quantity,
-                    price=item.part.price,
-                    order=order_details
-                )
-                oi.save()
-                '''Reduce stock when order is placed or saved'''
-                part = Part.objects.get(id=item.part.id)
-                part.stock = int(item.part.stock - item.quantity)
-                part.save()
-                if voucher != None:
-                    discount = (oi.price*(voucher.discount/Decimal('100')))
-                    oi.price = (oi.price - discount)
-                else:
-                    oi.price = oi.price*oi.quantity
-                oi.save()
-                empty_cart(request)
-            except Exception as e:
-                return redirect("carparts:part_list")  
-        return redirect('order:thanks',order_details.id)
+            oi = OrderItem.objects.create(
+                product=item.part.title,
+                quantity=item.quantity,
+                price=item.part.price,
+                order=order_details
+            )
+            oi.save()
+
+            # Reduce stock
+            part = Part.objects.get(id=item.part.id)
+            part.stock = max(0, part.stock - item.quantity)  # Ensure stock doesn't go negative
+            part.save()
+
+            # Apply discount if voucher exists
+            if voucher:
+                discount = oi.price * (voucher.discount / Decimal('100'))
+                oi.price = oi.price - discount
+            else:
+                oi.price = oi.price * oi.quantity
+            oi.save()
+
+        # Fix: Explicitly delete cart items and cart
+        cart_items.delete()  # ✅ Delete all cart items
+        Cart.objects.filter(cart_id=_cart_id(request)).delete()  # ✅ Delete the cart itself
+
+        # Fix: Ensure correct redirect to the thank you page
+        return redirect(reverse('order:thanks', args=[order_details.id]))  # ✅ Correct redirection
 
     except ValueError as ve:
         print(f"Error: {ve}")
-        return redirect("carparts:part_list")  
+        return redirect("carparts:part_list")
 
     except StripeError as se:
         print(f"Stripe Error: {se}")
-        return redirect("carparts:part_list") 
+        return redirect("carparts:part_list")
 
     except Exception as e:
         print(f"Unexpected error: {e}")
-        return redirect("carparts:part_list") 
+        return redirect("carparts:part_list")
