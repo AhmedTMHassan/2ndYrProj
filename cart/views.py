@@ -55,7 +55,7 @@ def cart_detail(request, total=0, counter=0, cart_items = None):
     except ObjectDoesNotExist:
         pass
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    stripe_total = int(total * 100)  # Convert total to cents
+    stripe_total = int(total * 100)  
     description = 'Online Shop - New Order'
     voucher_apply_form = VoucherApplyForm()
     try:
@@ -71,7 +71,6 @@ def cart_detail(request, total=0, counter=0, cart_items = None):
 
     if request.method == 'POST':
         try:
-            # Create a new Stripe Checkout session
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[{
@@ -91,15 +90,15 @@ def cart_detail(request, total=0, counter=0, cart_items = None):
                 success_url=request.build_absolute_uri(reverse('cart:new_order'))+ f"?session_id={{CHECKOUT_SESSION_ID}}&voucher_id={voucher_id}&cart_total={total}",
                 cancel_url=request.build_absolute_uri(reverse('cart:cart_detail')),    
             )
-            # Redirect to Stripe Checkout
+            
             return redirect(checkout_session.url, code=303)
         except Exception as e:
-            # Render the template with an error message
+            
             return render(request, 'cart.html', {
                 'cart_items': cart_items,
                 'total': total,
                 'counter': counter,
-                'error': str(e),  # Display error if there's an issue with Stripe
+                'error': str(e), 
             })
 
     return render(request, 'cart.html', {
@@ -143,8 +142,6 @@ def empty_cart(request):
         pass
     return redirect('cart:cart_detail')
 
-from django.urls import reverse
-from decimal import Decimal
 
 def create_order(request):
     try:
@@ -171,7 +168,7 @@ def create_order(request):
 
         order_details = Order.objects.create(
             token=session.id,
-            total=session.amount_total / 100,  # Convert cents to currency units
+            total=session.amount_total / 100, 
             emailAddress=customer_details.email,
             billingName=billing_name,
             billingAddress1=billing_address.line1,
@@ -192,13 +189,13 @@ def create_order(request):
         except ObjectDoesNotExist:
             return redirect("carparts:part_list")
 
-        # Fix: Make voucher optional
+
         voucher = None
         if voucher_id:
             try:
                 voucher = Voucher.objects.get(id=voucher_id)
             except Voucher.DoesNotExist:
-                voucher = None  # No voucher, but continue processing the order
+                voucher = None  
 
         if voucher:
             order_details.voucher = voucher
@@ -209,19 +206,19 @@ def create_order(request):
 
         for item in cart_items:
             oi = OrderItem.objects.create(
-                product=item.part.title,
+                part=item.part.title,
                 quantity=item.quantity,
                 price=item.part.price,
                 order=order_details
             )
             oi.save()
 
-            # Reduce stock
+           
             part = Part.objects.get(id=item.part.id)
-            part.stock = max(0, part.stock - item.quantity)  # Ensure stock doesn't go negative
+            part.stock = max(0, part.stock - item.quantity)  
             part.save()
 
-            # Apply discount if voucher exists
+            
             if voucher:
                 discount = oi.price * (voucher.discount / Decimal('100'))
                 oi.price = oi.price - discount
@@ -229,11 +226,11 @@ def create_order(request):
                 oi.price = oi.price * oi.quantity
             oi.save()
 
-        # Fix: Explicitly delete cart items and cart
-        cart_items.delete()  # ✅ Delete all cart items
-        Cart.objects.filter(cart_id=_cart_id(request)).delete()  # ✅ Delete the cart itself
+        
+        cart_items.delete()  
+        Cart.objects.filter(cart_id=_cart_id(request)).delete()  
 
-        # Fix: Ensure correct redirect to the thank you page
+        
         return redirect(reverse('order:thanks', args=[order_details.id]))  # ✅ Correct redirection
 
     except ValueError as ve:
