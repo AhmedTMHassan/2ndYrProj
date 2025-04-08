@@ -11,6 +11,19 @@ from django.contrib import messages
 from vouchers.models import Voucher
 from vouchers.forms import VoucherApplyForm
 from decimal import Decimal
+from django.core.mail import send_mail
+
+def send_email(request, order_id):
+    try:
+        send_mail(
+            'Your order',
+            'Thank you for your order!',
+            'X00210493@mytudublin.ie',
+            ['p@c.ie'],
+            fail_silently=False,
+            html_message=f"<p>Dear {request.user.username},</p><p>Thank you for your order. Your order number is {order_id.id}</p>")
+    except Exception as e:
+        print(f"Email failed: {e}")
 
 def _cart_id(request):
     cart = request.session.session_key
@@ -134,7 +147,7 @@ def full_remove(request, part_id):
 def empty_cart(request):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, active=True)
+        cart_items = CartItem.objects.filter(cart=cart)
         cart_items.delete()  
         cart.delete()
         return redirect('carparts:part_list')
@@ -212,6 +225,7 @@ def create_order(request):
                 order=order_details
             )
             oi.save()
+            send_email(request, order_details)
 
            
             part = Part.objects.get(id=item.part.id)
@@ -226,7 +240,6 @@ def create_order(request):
                 oi.price = oi.price * oi.quantity
             oi.save()
 
-        
         cart_items.delete()  
         Cart.objects.filter(cart_id=_cart_id(request)).delete()  
 

@@ -96,9 +96,9 @@
 <!-- Sidebar Menu -->
 <div class="sidebar">
     <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Shop</a></li>
-        <li><a href="#">Brands</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'carparts:part_list' %}">Parts</a></li>
+        <li><a href="{% url 'carparts:brand_list' %}">Brands</a></li>
         <li><a href="#">Contact</a></li>
     </ul>
 </div>

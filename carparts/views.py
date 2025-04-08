@@ -72,6 +72,8 @@ class PartsByBrandView(DetailView):
         brand = self.object
         parts = Part.objects.filter(brand=brand)
         context['parts'] = parts
+        categories = brand.category.all()
+        context['category'] = categories.first() if categories.exists() else None
         return context
 
 class PartDetailView(DetailView):

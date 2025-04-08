@@ -106,81 +106,73 @@
 
 <label for="sidebar-toggle" class="menu-icon">&#9776;</label>
 
+<input type="checkbox" id="sidebar-toggle">
+
+<div class="sidebar bg-dark text-white">
+    <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="{% url 'carparts:part_list' %}">Shop</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="{% url 'carparts:brand_list' %}">Brands</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Contact Us</a></li>
+    </ul>
+</div>
+
+<label for="sidebar-toggle" class="overlay"></label>
+
+<label for="sidebar-toggle" class="menu-icon">&#9776;</label>
+
 <div class="page-wrapper">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="navbar-container">
-            <a href="{% url 'home' %}">
-                <img src="{% static 'images/image.png' %}" alt="" style="width: 10em; margin-left: 2em;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid justify-content-between align-items-center px-4 py-3">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/image.png' %}" class="navbar-logo" alt="Logo" style="width: 10em; margin-left: 2em;">
             </a>
-            <div class="container-fluid" style="width: 100%;">
-                <form class="d-flex" action="{% url 'search_app:searchResult' %}" method="get">
-                    <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="border-radius: 2em; padding: 1em;">
-                    <button class="btn btn-outline-dark" type="submit" style="border-radius: 2em;">Search</button>
-                </form>
+
+            <form class="d-flex w-100" action="{% url 'search_app:searchResult' %}" method="get">
+                <input name="q" class="form-control me-2 rounded-pill" type="search" placeholder="Search">
+                <button class="btn btn-outline-dark rounded-pill" type="submit">Search</button>
+            </form>
+
+            <div class="d-flex align-items-center ms-3">
+                <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-dark rounded-pill position-relative">
+                    <i class="bi bi-cart"></i>
+                    {% if item_count > 0 %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ item_count }}
+                        </span>
+                    {% endif %}
+                </a>
             </div>
-            <div class="d-flex" style="color: white; margin-right: 2%;">
-                {% if item_count > 0 %}
-                <li class="nav-item d-flex flex-column" style="margin-right: 1em;">
-                    <a class="nav-link" href="{% url 'cart:cart_detail' %}">
-                        <button class="btn btn-outline-dark" style="border-radius: 2em; padding: 1em; display: flex;">
-                            <i class="bi bi-cart"></i> {{item_count}}
-                        </button>
-                    </a>
-                </li>
-                {% else %}
-                <div class="d-flex" style="color: white; margin-right: 2%;">
-                    <li class="nav-item d-flex flex-column" style="margin-right: 1em;">
-                        <a class="nav-link" href="{% url 'cart:cart_detail' %}">
-                            <button class="btn btn-outline-dark" style="border-radius: 2em; padding: 1em;">
-                                <i class="bi bi-cart"></i>
-                            </button>
-                        </a>
-                    </li>
-                </div>
-                {% endif %}
-            </div>
+
             {% if user.is_authenticated %}
-            <div class="mr-auto">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="margin-top: 7%;">
-                            <i class="bi bi-person-circle"></i> {{ user.username }} 
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <form method="post" action="" class="d-inline text-align-center">
-                                {% csrf_token %}
-                                {% if user.profile %}
-                                <a class="btn btn-outline-dark" href="{% url 'show_profile' user.profile.pk %}">View Profile</a>
-                                <a class="btn btn-outline-dark" href="{% url 'edit_profile' user.profile.pk %}">Edit Profile</a>
-                                {% endif %}
-                                <a class="btn btn-outline-dark" href="{% url 'order:order_history' %}">Order History</a>
-                                <a class="btn btn-outline-dark" href="{% url 'password_change' %}">Change Password</a>
-                                <a class="btn btn-outline-dark" href="{% url 'password_reset' %}">Reset Password</a>
-                            </form>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li>
-                                <form method="post" action="{% url 'logout' %}">
-                                    {% csrf_token %}
-                                    <button class="btn btn-outline-dark" type="submit">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
+            <div class="dropdown ms-3">
+                <a class="btn btn-outline-dark dropdown-toggle rounded-pill" href="#" role="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle"></i> {{ user.username }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    {% if user.profile %}
+                        <li><a class="dropdown-item" href="{% url 'show_profile' user.profile.pk %}">View Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'edit_profile' user.profile.pk %}">Edit Profile</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'order:order_history' %}">Order History</a></li>
+                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                    <li><a class="dropdown-item" href="{% url 'password_reset' %}">Reset Password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button class="dropdown-item" type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </div>
             {% else %}
-            <div class="mr-auto">
-                <form class="form d-flex">
-                    <a href="{% url 'login' %}" class="btn btn-outline-dark" style="width: 5em; border-radius: 2em;">Log in</a>
-                    <a href="{% url 'signup' %}" class="btn btn-outline-dark" style="width: 5em; border-radius: 2em;">Sign up</a>
-                </form>
+            <div class="d-flex gap-2 ms-3">
+                <a href="{% url 'login' %}" class="btn btn-outline-dark rounded-pill">Log in</a>
+                <a href="{% url 'signup' %}" class="btn btn-outline-dark rounded-pill">Sign up</a>
             </div>
             {% endif %}
         </div>
     </nav>
-
 </div>
