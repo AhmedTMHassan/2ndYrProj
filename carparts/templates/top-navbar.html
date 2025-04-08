@@ -95,27 +95,13 @@
 
 <div class="sidebar">
     <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'carparts:part_list' %}">Shop</a></li>
-        <li><a href="{% url 'carparts:brand_list' %}">Brands</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <a class="text-light" style="text-decoration: none;" href="{% url 'home' %}"><li>Home</li></a>
+        <a class="text-light" style="text-decoration: none;" href="{% url 'carparts:part_list' %}"><li>Shop</li></a>
+        <a class="text-light" style="text-decoration: none;" href="{% url 'carparts:brand_list' %}"><li>Brands</li></a>
+        <a class="text-light" style="text-decoration: none;" href="#"><li>About Us</li></a>
     </ul>
 </div>
 
-<label for="sidebar-toggle" class="overlay"></label>
-
-<label for="sidebar-toggle" class="menu-icon">&#9776;</label>
-
-<input type="checkbox" id="sidebar-toggle">
-
-<div class="sidebar bg-dark text-white">
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home' %}">Home</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="{% url 'carparts:part_list' %}">Shop</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="{% url 'carparts:brand_list' %}">Brands</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">Contact Us</a></li>
-    </ul>
-</div>
 
 <label for="sidebar-toggle" class="overlay"></label>
 

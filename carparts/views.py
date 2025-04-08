@@ -19,6 +19,7 @@ class BrandPageView(ListView):
     model = Brand
     template_name = 'shop/brand.html'
     context_object_name = 'brand_list'
+    paginate_by = 6  
     
 
 class PartPageView(ListView):
