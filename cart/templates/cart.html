@@ -152,7 +152,7 @@
                     <span>NEW TOTAL</span>
                     <span>€{{ new_total|floatformat:"2" }}</span>
                 </div>
-                <form action="{% url 'cart:cart_detail' %}" method="POST">
+                <form action="{% url 'cart:place_order' %}" method="POST">
                     {% csrf_token %}
                     <button class="btn btn-success btn-lg w-100 mt-2" type="submit">Checkout</button>
                 </form>

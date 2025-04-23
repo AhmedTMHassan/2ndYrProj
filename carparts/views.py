@@ -1,5 +1,7 @@
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Part, Brand, Category
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect, render
 
 class HomePageView(TemplateView):
     template_name = 'base.html'

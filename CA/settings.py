@@ -151,8 +151,5 @@ STRIPE_SECRET_KEY = 'sk_test_51R1VFFGvKll2qQQN8bKvXiF55qD4IkU296rUqBTCNAplMz7Yuc
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51R1VFFGvKll2qQQN0kppMSCQWzwgsTFQ9sNYGGitnPINTzETBKsGXuPE8lnNuE84tz1L3GW8jJKH3xI0m30tUr1x00Nf3K0EEL'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost' # MailHog listens on localhost
-EMAIL_PORT = 1025 # Default MailHog SMTP port
-
-DEFAULT_FROM_EMAIL = 'no-reply@onlineshop.com'
-ADMIN_EMAIL = 'p@c.ie'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

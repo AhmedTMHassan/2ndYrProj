@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import CategoryPageView, BrandPageView, PartPageView, HomePageView, BrandsByCategoryView, PartsByBrandView, PartDetailView
+from . import views
 
 app_name = 'carparts'
 
