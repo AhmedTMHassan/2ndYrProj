@@ -5,7 +5,7 @@
         transition: margin-left 0.3s ease-in-out;
     }
 
-    /* Sidebar Styles */
+
     .sidebar {
         position: fixed;
         left: -250px;
@@ -38,12 +38,12 @@
         background: #444;
     }
 
-    /* Checkbox for toggling */
+   
     #sidebar-toggle {
         display: none;
     }
 
-    /* When checked, show sidebar and push content */
+   
     #sidebar-toggle:checked + .sidebar {
         left: 0;
     }
@@ -52,7 +52,7 @@
         margin-left: 250px;
     }
 
-    /* Menu Icon */
+    
     .menu-icon {
         position: fixed;
         top: 15px;
@@ -66,7 +66,7 @@
         border-radius: 5px;
     }
 
-    /* Overlay effect when sidebar is open */
+   
     #sidebar-toggle:checked ~ .overlay {
         display: block;
     }
@@ -82,7 +82,7 @@
         z-index: 999;
     }
 
-    /* Page content transition */
+   
     .page-content {
         transition: margin-left 0.3s ease-in-out;
         padding: 20px;
@@ -90,10 +90,10 @@
 
 </style>
 
-<!-- Sidebar Toggle -->
+
 <input type="checkbox" id="sidebar-toggle">
 
-<!-- Sidebar Menu -->
+
 <div class="sidebar">
     <ul>
         <li><a href="{% url 'home' %}">Home</a></li>
@@ -103,8 +103,8 @@
     </ul>
 </div>
 
-<!-- Overlay -->
+
 <label for="sidebar-toggle" class="overlay"></label>
 
-<!-- Menu Icon -->
+
 <label for="sidebar-toggle" class="menu-icon">&#9776;</label>

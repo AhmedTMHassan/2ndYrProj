@@ -31,24 +31,24 @@ class PartPageView(ListView):
     paginate_by = 6  
 
     def get_queryset(self):
-        sort = self.request.GET.get('sort', 'title_asc')  # Default sorting: alphabetical (A-Z)
+        sort = self.request.GET.get('sort', 'title_asc')  
         queryset = Part.objects.all()
 
-        # Apply sorting
+        
         if sort == 'price_asc':
-            queryset = queryset.order_by('price')  # Low to high
+            queryset = queryset.order_by('price')  
         elif sort == 'price_desc':
-            queryset = queryset.order_by('-price')  # High to low
+            queryset = queryset.order_by('-price')  
         elif sort == 'title_desc':
-            queryset = queryset.order_by('-title')  # Z-A
-        else:  # Default: title_asc
-            queryset = queryset.order_by('title')  # A-Z
+            queryset = queryset.order_by('-title')  
+        else:  
+            queryset = queryset.order_by('title') 
 
         return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sort'] = self.request.GET.get('sort', 'title_asc')  # Pass the current sorting option
+        context['sort'] = self.request.GET.get('sort', 'title_asc') 
         return context
     
     

@@ -6,7 +6,7 @@ class PartAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_filter = ('category', 'brand')
 
-# Register your models here.
+
 admin.site.register(Part, PartAdmin)
 admin.site.register(Category)
 admin.site.register(Brand)

@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm
 from .models import CustomUser, Profile
 from django.urls import reverse_lazy
 
-# Create your views here.
+
 class SignUpView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm

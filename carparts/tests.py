@@ -25,10 +25,10 @@ class CategoryTests(TestCase):
 
 class BrandTests(TestCase):
     def setUp(self):
-        # Create a category to associate with the brand
+        
         self.category = Category.objects.create(name='Oil')
         
-        # Create the brand and associate it with the category
+        
         self.brand = Brand.objects.create(
             id=uuid.uuid4(),
             name='Castrol'
@@ -75,11 +75,11 @@ class PartTests(TestCase):
         self.assertTemplateUsed(response, 'shop/part.html')
 
     def test_part_detail_view(self):
-        # Use reverse to get the URL for the part detail view with the correct primary key (integer)
+     
         response = self.client.get(reverse('carparts:part_detail', args=[self.part.id]))
-        no_response = self.client.get('/part/12345/')  # Simulate a non-existing part
+        no_response = self.client.get('/part/12345/')  
 
-        # Check if the correct part page is returned
+        
         self.assertEqual(response.status_code, 200)
         self.assertEqual(no_response.status_code, 404)
         self.assertContains(response, 'Castrol Edge')
