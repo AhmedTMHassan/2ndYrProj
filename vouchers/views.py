@@ -9,8 +9,8 @@ def voucher_apply(request):
     form = VoucherApplyForm(request.POST)
 
     if form.is_valid():
-        code = form.cleaned_data['code'].strip()  # Remove whitespace from input
-        if code:  # Check if any voucher was entered
+        code = form.cleaned_data['code'].strip()  
+        if code:  
             try:
                 voucher = Voucher.objects.get(
                     code__iexact=code,
@@ -19,16 +19,16 @@ def voucher_apply(request):
                     active=True
                 )
                 request.session['voucher_id'] = voucher.id
-                request.session['invalid_voucher'] = False  # Valid voucher, reset invalid flag
+                request.session['invalid_voucher'] = False  
             except Voucher.DoesNotExist:
                 request.session['voucher_id'] = None
-                request.session['invalid_voucher'] = True  # Invalid voucher entered
+                request.session['invalid_voucher'] = True  
         else:
             request.session['voucher_id'] = None
-            request.session['invalid_voucher'] = None  # No voucher entered
+            request.session['invalid_voucher'] = None  
     else:
         request.session['voucher_id'] = None
-        request.session['invalid_voucher'] = None  # No voucher entered
+        request.session['invalid_voucher'] = None  
 
     return redirect('cart:cart_detail')
 

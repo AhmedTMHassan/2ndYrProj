@@ -54,7 +54,7 @@ class CartViewTests(TestCase):
 
     def test_add_cart(self):
         response = self.client.get(reverse('cart:add_cart', args=[self.part.id]))
-        self.assertEqual(response.status_code, 302)  # Redirect expected
+        self.assertEqual(response.status_code, 302)  
         cart = Cart.objects.get(cart_id=self.client.session.session_key)
         cart_item = CartItem.objects.get(part=self.part, cart=cart)
         self.assertEqual(cart_item.quantity, 1)
@@ -66,7 +66,7 @@ class CartViewTests(TestCase):
         cart_item = CartItem.objects.get(part=self.part, cart=cart)
         self.assertEqual(cart_item.quantity, 1)
         
-        # Attempt to add more items than available stock
+        
         for _ in range(3):
             self.client.get(reverse('cart:add_cart', args=[self.part.id]))
         cart_item.refresh_from_db()
@@ -75,11 +75,11 @@ class CartViewTests(TestCase):
 
 class CartRemoveViewTest(TestCase):
     def setUp(self):
-        # Create a category and brand for the part
+        
         self.category = Category.objects.create(name='Test Category')
         self.brand = Brand.objects.create(name='Test Brand')
 
-        # Create a part for testing
+        
         self.part = Part.objects.create(
             title='Test Part',
             description='Test description',
@@ -93,47 +93,47 @@ class CartRemoveViewTest(TestCase):
         return request.session.session_key
 
     def test_cart_remove_view(self):
-        # Set up a request with a session
+        
         request = self.client.request().wsgi_request
         request.session = self.client.session
         request.session.save()
 
-        # Set the cart ID using the _cart_id function
+        
         request.session['cart_id'] = self._cart_id(request)
 
-        # Create a cart using the _cart_id function
+        
         cart = Cart.objects.create(cart_id=request.session['cart_id'])
         cart_item = CartItem.objects.create(part=self.part, quantity=2, cart=cart)
 
-        # Make a request to the cart_remove view
+        
         response = self.client.post(reverse('cart:cart_remove', args=[self.part.id]))
 
-        # Assert that the response has a status code of 302 (redirect)
+        
         self.assertEqual(response.status_code, 302)
 
-        # Assert that the cart_item quantity is reduced by 1
+        
         updated_cart_item = CartItem.objects.get(id=cart_item.id)
         self.assertEqual(updated_cart_item.quantity, 1)
 
     def test_cart_full_remove_view(self):
-        # Set up a request with a session
+        
         request = self.client.request().wsgi_request
         request.session = self.client.session
         request.session.save()
 
-        # Set the cart ID using the _cart_id function
+        
         request.session['cart_id'] = self._cart_id(request)
 
-        # Create a cart using the _cart_id function
+       
         cart = Cart.objects.create(cart_id=request.session['cart_id'])
         cart_item = CartItem.objects.create(part=self.part, quantity=1, cart=cart)
 
-        # Make a request to the full_remove view for the last item
+        
         response = self.client.post(reverse('cart:full_remove', args=[self.part.id]))
 
-        # Assert that the response has a status code of 302 (redirect)
+        
         self.assertEqual(response.status_code, 302)
 
-        # Assert that the cart_item is deleted
+        
         with self.assertRaises(CartItem.DoesNotExist):
             CartItem.objects.get(id=cart_item.id)

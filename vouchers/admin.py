@@ -8,4 +8,3 @@ class VoucherAdmin(admin.ModelAdmin):
 
 admin.site.register(Voucher, VoucherAdmin)
 
-# Register your models here.

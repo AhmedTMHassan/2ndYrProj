@@ -18,7 +18,7 @@ import stripe
 
 def place_order(request):
     """Place an order, update stock, and redirect to Stripe payment."""
-    # Retrieve the cart associated with the current session
+   
     cart = get_object_or_404(Cart, cart_id=_cart_id(request))
     cart_items = CartItem.objects.filter(cart=cart, active=True)
 
@@ -26,17 +26,17 @@ def place_order(request):
         messages.error(request, "Your cart is empty.")
         return redirect('cart:cart_detail')
 
-    # Calculate the total cost of the cart
+   
     total = sum(item.part.price * item.quantity for item in cart_items)
 
-    # Create the order
+   
     order = Order.objects.create(
         emailAddress=request.user.email,
         billingName=request.user.get_full_name(),
-        total=total,  # Set the total cost
+        total=total,  
     )
 
-    # Process each cart item
+    
     for item in cart_items:
         part = item.part
 
@@ -44,7 +44,7 @@ def place_order(request):
             messages.error(request, f"Not enough stock for {part.title}.")
             return redirect('cart:cart_detail')
 
-        # Create an order item
+        
         OrderItem.objects.create(
             order=order,
             product=part.title,
@@ -52,16 +52,16 @@ def place_order(request):
             price=part.price,
         )
 
-        # Update stock
+        
         part.stock -= item.quantity
         part.save()
 
-    # Clear the cart
+    
     cart_items.delete()
     cart.delete()
 
-    # Check all parts for low stock and send email alerts
-    low_stock_parts = Part.objects.filter(stock__lt=3)  # Query all parts with stock < 3
+    
+    low_stock_parts = Part.objects.filter(stock__lt=3)  
     for part in low_stock_parts:
         try:
             send_mail(
@@ -80,7 +80,7 @@ def place_order(request):
         except Exception as e:
             print(f"Failed to send email for {part.title}: {e}")
 
-    # Redirect to Stripe payment page
+    
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         checkout_session = stripe.checkout.Session.create(
@@ -92,7 +92,7 @@ def place_order(request):
                         'product_data': {
                             'name': 'Order from AMO Car Parts',
                         },
-                        'unit_amount': int(total * 100),  # Convert to cents
+                        'unit_amount': int(total * 100), 
                     },
                     'quantity': 1,
                 },
@@ -124,7 +124,7 @@ def resend_low_stock_alerts(request):
             )
         )
     messages.success(request, f"Alerts sent for {parts.count()} part(s).")
-    return redirect('cart:cart_detail')  # or wherever you like
+    return redirect('cart:cart_detail')  
 
 
 

@@ -11,4 +11,4 @@ class Voucher(models.Model):
     def __str__(self):
         return self.code
 
-# Create your models here.
+
