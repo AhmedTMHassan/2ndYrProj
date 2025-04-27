@@ -10,7 +10,7 @@ class SignUpView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('shop:all_products')
+    success_url = reverse_lazy('carparts:part_list')
     def form_valid(self, form):
         response = super().form_valid(form)
         customer_group, created = Group.objects.get_or_create(name='Customer')
